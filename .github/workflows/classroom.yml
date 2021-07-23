@@ -1,0 +1,42 @@
+name: Flujo de trabajo de GitHub Classroom
+
+on: [push]
+
+jobs:
+  build:
+    name: Autograduación
+    runs-on: ubuntu-20.04
+    if: "!contains(github.event.head_commit.message, 'ci-skip')"
+    steps:
+      - uses: actions/checkout@v2
+      - name: Shutdown Ubuntu MySQL (SUDO)
+        run: sudo service mysql stop
+      - name: Configura caché para composer
+        uses: actions/cache@v2
+        with:
+          path: /tmp/composer-cache
+          key: ${{ runner.os }}-${{ hashFiles('**/composer.lock') }}
+      - name: Instala dependencias
+        uses: php-actions/composer@v5
+        with:
+          dev: yes
+          version: 2
+          php_version: 8.0
+          ssh_key: ${{ secrets.SSH_KEY }}
+          ssh_key_pub: ${{ secrets.SSH_KEY_PUB }}
+      - uses: shogo82148/actions-setup-mysql@v1
+        with:
+          mysql-version: 'mariadb-10.5'
+          user: ${{ secrets.DB_USER }}
+          password: ${{ secrets.DB_PASS }}
+      - name: Crea la base de datos
+        run: cat creacion-db.sql | mysql -u${{ secrets.DB_USER }} -h127.0.0.1 -p${{ secrets.DB_PASS }}
+      - name: Construye el archivo env
+        uses: SpicyPizza/create-envfile@v1
+        with:
+          envkey_DB_NAME: ${{ secrets.DB_NAME }}
+          envkey_DB_USER: ${{ secrets.DB_USER }}
+          envkey_DB_PASS: ${{ secrets.DB_PASS }}
+      - name: Migración y seedeo
+        run: composer run migrar && composer run hidratar
+      - uses: education/autograding@v1
