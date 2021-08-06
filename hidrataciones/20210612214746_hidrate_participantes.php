@@ -4,12 +4,12 @@ use Raiz\Bd\Auxiliadores\Migrador;
 
 class HidrateParticipantes extends Migrador
 {
-  private $tabla = 'participantes';
+  private string $tabla = 'participantes';
 
   public function up()
   {
-    $jugadores = $this->read('SELECT id FROM jugadores');
-    $juegos = $this->read('SELECT id FROM juegos');
+    $jugadores = $this->read(sql: 'SELECT id FROM jugadores');
+    $juegos = $this->read(sql: 'SELECT id FROM juegos');
 
     $sql = "INSERT INTO `$this->tabla` VALUES
     ('{$jugadores[0]['id']}', '{$juegos[0]['id']}'),

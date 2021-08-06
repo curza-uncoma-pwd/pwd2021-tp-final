@@ -26,17 +26,19 @@ final class ConexionBd
    * ```
    *
    * @param string $sql Consulta SQL.
-   * @param array $params Arreglo asociativo con los
+   * @param mixed[] $params Arreglo asociativo con los
    *  parámetros utilizados en la consulta.
    */
   public static function escribir(string $sql, array $params = []): void
   {
     $conexion = self::conectar();
-    $consulta = $conexion->prepare($sql);
+    $consulta = $conexion->prepare(query: $sql);
 
-    Logger::info(mensaje: PdoDebugger::show($sql, $params));
+    Logger::info(
+      mensaje: PdoDebugger::show(raw_sql: $sql, parameters: $params),
+    );
 
-    $consulta->execute($params);
+    $consulta->execute(params: $params);
 
     $consulta->closeCursor();
   }
@@ -54,22 +56,24 @@ final class ConexionBd
    * ```
    *
    * @param string $sql Consulta SQL.
-   * @param array $params Arreglo asociativo con los
-   *  parámetros utilizados en la consulta.
    * @param Closure $transformador Es una función que se
    * utiliza para procesar los datos de la db.
+   * @param mixed[] $params Arreglo asociativo con los
+   *  parámetros utilizados en la consulta.
    */
   public static function leer(
     string $sql,
+    Closure $transformador,
     array $params = [],
-    Closure $transformador
   ): mixed {
     $conexion = self::conectar();
-    $consulta = $conexion->prepare($sql);
+    $consulta = $conexion->prepare(query: $sql);
 
-    Logger::info(mensaje: PdoDebugger::show($sql, $params));
+    Logger::info(
+      mensaje: PdoDebugger::show(raw_sql: $sql, parameters: $params),
+    );
 
-    $consulta->execute($params);
+    $consulta->execute(params: $params);
 
     $data = $transformador($consulta);
 
@@ -78,14 +82,14 @@ final class ConexionBd
     return $data;
   }
 
-  public static function conectar(): \PDO
+  public static function conectar(): PDO
   {
     if (is_null(static::$conexion)) {
-      static::$conexion = new \PDO(
-        "mysql:dbname={$_ENV['DB_NAME']};host=127.0.0.1;charset=utf8mb4",
-        $_ENV['DB_USER'],
-        $_ENV['DB_PASS'],
-        [\PDO::ATTR_ERRMODE => \PDO::ERRMODE_EXCEPTION],
+      static::$conexion = new PDO(
+        dsn: "mysql:dbname={$_ENV['DB_NAME']};host=127.0.0.1;charset=utf8mb4",
+        username: $_ENV['DB_USER'],
+        password: $_ENV['DB_PASS'],
+        options: [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION],
       );
     }
 

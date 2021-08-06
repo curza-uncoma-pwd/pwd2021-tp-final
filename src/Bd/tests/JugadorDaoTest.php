@@ -19,9 +19,12 @@ final class JugadorDaoTest extends TestCase
   {
     $jugadores = JugadorDao::listar();
 
-    $this->assertIsArray($jugadores);
-    $this->assertGreaterThan(0, sizeof($jugadores));
-    $this->assertContainsOnlyInstancesOf(Jugador::class, $jugadores);
+    $this->assertIsArray(actual: $jugadores);
+    $this->assertGreaterThan(expected: 0, actual: sizeof(value: $jugadores));
+    $this->assertContainsOnlyInstancesOf(
+      className: Jugador::class,
+      haystack: $jugadores,
+    );
   }
 
   /** @test */
@@ -33,40 +36,40 @@ final class JugadorDaoTest extends TestCase
 
     self::$id = $instancia->id();
 
-    JugadorDao::persistir($instancia);
+    JugadorDao::persistir(instancia: $instancia);
   }
 
   /** @test */
   public function busca_por_id(): void
   {
-    $instancia = JugadorDao::buscarPorId(self::$id);
+    $instancia = JugadorDao::buscarPorId(id: self::$id);
 
-    $this->assertInstanceOf(Jugador::class, $instancia);
+    $this->assertInstanceOf(expected: Jugador::class, actual: $instancia);
   }
 
   /** @test */
   public function actualiza_jugador(): void
   {
     /** @var Jugador */
-    $antes = JugadorDao::buscarPorId(self::$id);
+    $antes = JugadorDao::buscarPorId(id: self::$id);
 
-    $antes->setNombre('Cambio de nombre');
+    $antes->setNombre(nombre: 'Cambio de nombre');
 
-    JugadorDao::actualizar($antes);
+    JugadorDao::actualizar(instancia: $antes);
 
     /** @var Jugador */
-    $despues = JugadorDao::buscarPorId(self::$id);
+    $despues = JugadorDao::buscarPorId(id: self::$id);
 
-    $this->assertEquals($antes->nombre(), $despues->nombre());
+    $this->assertEquals(expected: $antes->nombre(), actual: $despues->nombre());
   }
 
   /** @test */
   public function borra_jugador(): void
   {
-    JugadorDao::borrar(self::$id);
+    JugadorDao::borrar(id: self::$id);
 
-    $debeSerNulo = JugadorDao::buscarPorId(self::$id);
+    $debeSerNulo = JugadorDao::buscarPorId(id: self::$id);
 
-    $this->assertNull($debeSerNulo);
+    $this->assertNull(actual: $debeSerNulo);
   }
 }

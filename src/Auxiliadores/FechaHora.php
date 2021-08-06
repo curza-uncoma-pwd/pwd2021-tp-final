@@ -9,14 +9,14 @@ class FechaHora
 {
   public static function deserializar(?string $fecha): LocalDateTime
   {
-    return is_null($fecha)
-      ? LocalDateTime::now(TimeZoneRegion::utc())
-      : LocalDateTime::parse($fecha);
+    return is_null(value: $fecha)
+      ? LocalDateTime::now(timeZone: TimeZoneRegion::utc())
+      : LocalDateTime::parse(text: $fecha);
   }
 
   public static function deserializarOpcional(?string $fecha): ?LocalDateTime
   {
-    return is_null($fecha) ? null : LocalDateTime::parse($fecha);
+    return is_null(value: $fecha) ? null : LocalDateTime::parse(text: $fecha);
   }
 
   /**

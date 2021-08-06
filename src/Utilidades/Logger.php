@@ -11,16 +11,16 @@ final class Logger
 {
   private static MonologLogger $instancia;
 
-  public static function info(?ModeloBase $modelo = null, string $mensaje): void
+  public static function info(string $mensaje, ?ModeloBase $modelo = null): void
   {
     $logger = self::instancia();
 
-    if (!is_null($modelo)) {
-      $nombreDelaClase = get_class($modelo);
+    if (!is_null(value: $modelo)) {
+      $nombreDelaClase = get_class(object: $modelo);
     }
 
     $logger->info(
-      is_null($modelo)
+      message: is_null(value: $modelo)
         ? $mensaje
         : "[$nombreDelaClase#{$modelo->id()}] $mensaje",
     );
@@ -32,16 +32,19 @@ final class Logger
       return self::$instancia;
     }
     $formato = "%message%\n";
-    $formateador = new LineFormatter($formato, 'Y-m-d H:i:s');
-    $manejadorDeStreamDeTexto = new StreamHandler(
-      'php://stdout',
-      MonologLogger::INFO,
+    $formateador = new LineFormatter(
+      format: $formato,
+      dateFormat: 'Y-m-d H:i:s',
     );
-    $manejadorDeStreamDeTexto->setFormatter($formateador);
+    $manejadorDeStreamDeTexto = new StreamHandler(
+      stream: 'php://stdout',
+      level: MonologLogger::INFO,
+    );
+    $manejadorDeStreamDeTexto->setFormatter(formatter: $formateador);
 
-    self::$instancia = new MonologLogger('principal');
+    self::$instancia = new MonologLogger(name: 'principal');
 
-    self::$instancia->pushHandler($manejadorDeStreamDeTexto);
+    self::$instancia->pushHandler(handler: $manejadorDeStreamDeTexto);
 
     return self::$instancia;
   }

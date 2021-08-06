@@ -12,7 +12,7 @@ final class CubileteTest extends TestCase
   /** @test */
   public function el_proceso_normal_funciona_correctamente(): void
   {
-    $juego = new Generala(jugadores: []);
+    $juego = new Generala(rondas: 3, jugadores: []);
     $cubilete = new Cubilete(juego: $juego);
 
     $cubilete->lanzarDados();
@@ -25,19 +25,19 @@ final class CubileteTest extends TestCase
     Logger::info(mensaje: 'Resultado:');
 
     for ($i = 0; $i < $juego->dadoValorMin(); $i++) {
-      $this->assertNull($valores[$i]);
-      $this->assertNull($cantidades[$i]);
+      $this->assertNull(actual: $valores[$i]);
+      $this->assertNull(actual: $cantidades[$i]);
     }
 
     for ($i = $juego->dadoValorMin(); $i <= $juego->dadoValorMax(); $i++) {
       Logger::info(mensaje: "$i * {$valores[$i]} = {$cantidades[$i]}");
 
-      $this->assertEquals($valores[$i] * $i, $cantidades[$i]);
+      $this->assertEquals(expected: $valores[$i] * $i, actual: $cantidades[$i]);
     }
   }
 
   /** @test */
-  public function el_arreglo_de_dados_del_tres_al_cinco_es_correcto()
+  public function el_arreglo_de_dados_del_tres_al_cinco_es_correcto(): void
   {
     $juego = new JuegoTest(min: 3, max: 5);
     $cubilete = new Cubilete(juego: $juego);
@@ -52,19 +52,19 @@ final class CubileteTest extends TestCase
     Logger::info(mensaje: 'Resultado:');
 
     for ($i = 0; $i < $juego->dadoValorMin(); $i++) {
-      $this->assertNull($valores[$i]);
-      $this->assertNull($cantidades[$i]);
+      $this->assertNull(actual: $valores[$i]);
+      $this->assertNull(actual: $cantidades[$i]);
     }
 
     for ($i = $juego->dadoValorMin(); $i <= $juego->dadoValorMax(); $i++) {
       Logger::info(mensaje: "$i * {$valores[$i]} = {$cantidades[$i]}");
 
-      $this->assertEquals($valores[$i] * $i, $cantidades[$i]);
+      $this->assertEquals(expected: $valores[$i] * $i, actual: $cantidades[$i]);
     }
   }
 
   /** @test */
-  public function el_arreglo_de_dados_del_cero_al_cuatro_es_correcto()
+  public function el_arreglo_de_dados_del_cero_al_cuatro_es_correcto(): void
   {
     $juego = new JuegoTest(min: 0, max: 4);
     $cubilete = new Cubilete(juego: $juego);
@@ -79,14 +79,14 @@ final class CubileteTest extends TestCase
     Logger::info(mensaje: 'Resultado:');
 
     for ($i = 0; $i < $juego->dadoValorMin(); $i++) {
-      $this->assertNull($valores[$i]);
-      $this->assertNull($cantidades[$i]);
+      $this->assertNull(actual: $valores[$i]);
+      $this->assertNull(actual: $cantidades[$i]);
     }
 
     for ($i = $juego->dadoValorMin(); $i <= $juego->dadoValorMax(); $i++) {
       Logger::info(mensaje: "$i * {$valores[$i]} = {$cantidades[$i]}");
 
-      $this->assertEquals($valores[$i] * $i, $cantidades[$i]);
+      $this->assertEquals(expected: $valores[$i] * $i, actual: $cantidades[$i]);
     }
   }
 }

@@ -12,14 +12,9 @@ class GeneralaError extends Error
 
   public function __construct(Generala $juego, int $codigo)
   {
+    $id = $juego->id();
+
     switch ($codigo) {
-      case self::FALTA_CONFIGURAR:
-        parent::__construct(
-          message: "Faltan configurar las rondas de la generala#{$juego->id()}. " .
-            "Invoque el método `->configurarRondas(int \$rondas)`.",
-          code: $codigo,
-        );
-        break;
       default:
         parent::__construct(
           message: "Acción {{$codigo}} desconocida.",

@@ -4,7 +4,7 @@ use Raiz\Bd\Auxiliadores\Migrador;
 
 class AddJuegos extends Migrador
 {
-  private $tabla = 'juegos';
+  private string $tabla = 'juegos';
 
   public function up()
   {

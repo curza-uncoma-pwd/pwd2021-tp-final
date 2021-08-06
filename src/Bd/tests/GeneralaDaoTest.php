@@ -20,9 +20,12 @@ final class GeneralaDaoTest extends TestCase
   {
     $juegos = GeneralaDao::listar();
 
-    $this->assertIsArray($juegos);
-    $this->assertGreaterThan(0, sizeof($juegos));
-    $this->assertContainsOnlyInstancesOf(Generala::class, $juegos);
+    $this->assertIsArray(actual: $juegos);
+    $this->assertGreaterThan(expected: 0, actual: sizeof(value: $juegos));
+    $this->assertContainsOnlyInstancesOf(
+      className: Generala::class,
+      haystack: $juegos,
+    );
 
     // TODO: verificar los jugadores de cada partida
   }
@@ -41,15 +44,15 @@ final class GeneralaDaoTest extends TestCase
 
     self::$id = $instancia->id();
 
-    GeneralaDao::persistir($instancia);
+    GeneralaDao::persistir(instancia: $instancia);
   }
 
   /** @test */
   public function busca_por_id(): void
   {
-    $instancia = GeneralaDao::buscarPorId(self::$id);
+    $instancia = GeneralaDao::buscarPorId(id: self::$id);
 
-    $this->assertInstanceOf(Generala::class, $instancia);
+    $this->assertInstanceOf(expected: Generala::class, actual: $instancia);
     // TODO: verificar los jugadores de cada partida
   }
 
@@ -57,27 +60,27 @@ final class GeneralaDaoTest extends TestCase
   public function actualiza_juego(): void
   {
     /** @var Generala */
-    $antes = GeneralaDao::buscarPorId(self::$id);
+    $antes = GeneralaDao::buscarPorId(id: self::$id);
 
     $antes->iniciar();
     $antes->realizarRonda();
 
-    GeneralaDao::actualizar($antes);
+    GeneralaDao::actualizar(instancia: $antes);
 
     /** @var Generala */
-    $despues = GeneralaDao::buscarPorId(self::$id);
+    $despues = GeneralaDao::buscarPorId(id: self::$id);
 
-    $this->assertEquals($antes->estado(), $despues->estado());
+    $this->assertEquals(expected: $antes->estado(), actual: $despues->estado());
   }
 
   /** @test */
   public function borra_juego(): void
   {
-    GeneralaDao::borrar(self::$id);
+    GeneralaDao::borrar(id: self::$id);
 
-    $debeSerNulo = GeneralaDao::buscarPorId(self::$id);
+    $debeSerNulo = GeneralaDao::buscarPorId(id: self::$id);
 
-    $this->assertNull($debeSerNulo);
+    $this->assertNull(actual: $debeSerNulo);
     // TODO: verificar que los jugadores de la partida también se borraron
   }
 }

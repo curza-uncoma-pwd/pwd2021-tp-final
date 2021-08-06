@@ -7,7 +7,7 @@ use Phpmig\Migration\Migration as Base;
 
 class Migrador extends Base
 {
-  protected function run(string $sql)
+  protected function run(string $sql): void
   {
     $container = $this->getContainer();
     /** @var PDO */
@@ -20,7 +20,10 @@ class Migrador extends Base
     $statement->closeCursor();
   }
 
-  protected function read(string $sql)
+  /**
+   * @return mixed[]|false
+   */
+  protected function read(string $sql): array|false
   {
     $container = $this->getContainer();
     /** @var PDO */
@@ -28,7 +31,7 @@ class Migrador extends Base
 
     $statement = $db->query($sql);
 
-    $datos = $statement->fetchAll(PDO::FETCH_ASSOC);
+    $datos = $statement->fetchAll(mode: PDO::FETCH_ASSOC);
 
     $statement->closeCursor();
 

@@ -1,4 +1,4 @@
-# PWD2021 TP7: Data Access Objects (DAOs)
+# PWD2021 TP Final
 
 Los Mapeadores de datos a objetos, o DAOs, son clases intermedias entre el sistema de almacenamiento de datos (nuestras bases de datos) y nuestro código escrito en POO. Dado que las bases de datos no están escritas en ese paradgima, necesitamos de clases asistentes o intermedias que contengan de forma exclusiva toda la interacción necesaria. Así, dejamos bien separado el código propio de los modelos orientados a objetos, de las consultas a bases de datos.
 
@@ -47,27 +47,6 @@ Todas las recomendaciones para manejar el trabajo las pueden encontrar en el arc
 
 ## Actualizaciones
 
-### 2021-07-01
-
-- Se eliminó la clase `Raiz\Auxiliadores\Caracteres` siendo ésta innecesaria. La clase PDO se encarga automáticamente de escapar los caracteres, por lo que no hace falta que lo hagamos nosotros.
-- Se corrigieron dos bugs relacionados al atributo `$estado` de la clase `JuegoAbstracto`.
-- Se corrigió la firma del método `serializar` de la clase `Raiz\Auxiliadores\FechaHora`. Ahora devuelve `string` o `null`. La opción `null` se agregó dado que la fecha `fin` de un juego puede existir o no.
-- Se creó una nueva migración (ATENCIÓN porque es necesario correr `composer migrar` nuevamente) para que elimine la columna `id` de la tabla `participantes` por ser un dato innecesario.
-- Se corrigió la clase `JuegoError` al agregar las sentencias `break` que hacían falta para cortar la ejecución de cada caso del `switch`.
-
 ## Objetivos principales del práctico
 
-- Actualizar la clase **Jugador** para que implemente lo siguiente:
-  - Un nuevo atributo de tipo **LocalDateTime** con nombre **$ingreso**. Para usar la clase **LocalDateTime** deben importarla (no es nativa de PHP, sino parte de la librería **Brick\DateTime**). Docs: https://github.com/brick/date-time
-  - Implementar los métodos `serializar` y `deserializar` para devolver los atributos como arreglo asociativo.
-- Implementar la clase **JugadorDao** para persistir y consultar datos de la base de datos:
-  - Debe implementar la interface **DatoInterface**.
-  - Debe pasar todos los tests.
-- Implementar la clase **GeneralaDao** para persistir y consultar datos de la base de datos para los juegos de la generala:
-  - Debe implementar la interface **DaoInterface**.
-  - Debe pasar todos los tests.
-  - Tener en cuenta que esta clase tendrá que pontencialmente consumir datos de las tablas `juegos`, `participantes` y `jugadores`.
-
 ## Objetivos secundarios
-
-- Si alguna de las clases que deben persistirse sufrieron cambios por los objetivos secundarios, deberán realizar una migración para alterar la tabla de la base de datos, como así también modificar (a mano) los archivos de hidratación asociados a esa tabla.

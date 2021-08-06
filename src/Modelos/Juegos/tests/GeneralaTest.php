@@ -44,18 +44,6 @@ final class GeneralaTest extends TestCase
   }
 
   /** @test */
-  public function falla_al_iniciar_sin_configurar(): void
-  {
-    $this->expectException(GeneralaError::class);
-    $this->expectExceptionCode(GeneralaError::FALTA_CONFIGURAR);
-
-    $jugadores = [new Jugador(nombre: 'Jugador 1')];
-    $generala = new Generala(jugadores: $jugadores, rondas: 2);
-
-    $generala->iniciar();
-  }
-
-  /** @test */
   public function falla_al_intentar_iniciar_dos_veces(): void
   {
     $this->expectException(JuegoError::class);

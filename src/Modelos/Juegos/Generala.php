@@ -23,13 +23,13 @@ final class Generala extends JuegoAbstracto
 
   /** @param Array<Jugador> $jugadores */
   public function __construct(
+    array $jugadores,
+    int $rondas,
     ?string $id = null,
     ?string $estado = null,
     ?string $inicio = null,
     ?string $fin = null,
-    int $rondas,
     int $rondaActual = -1,
-    array $jugadores,
   ) {
     parent::__construct(
       id: $id,
@@ -70,23 +70,19 @@ final class Generala extends JuegoAbstracto
       // valor de entrada y devuelve otra cosa.
       jugadores: array_map(
         // NOTA: Función lambda
-        fn($jugador) => Jugador::deserializar($jugador),
-        $datos['jugadores'],
+        callback: fn($jugador): Jugador => Jugador::deserializar(
+          datos: $jugador,
+        ),
+        array: $datos['jugadores'],
       ),
     );
   }
 
   public function iniciar(): void
   {
-    if ($this->rondas < 0) {
-      throw new GeneralaError(
-        juego: $this,
-        codigo: GeneralaError::FALTA_CONFIGURAR,
-      );
-    }
-    $this->rondaActual = 0;
-
     parent::iniciar();
+
+    $this->rondaActual = 0;
   }
 
   protected function procesarRonda(): void
@@ -123,7 +119,7 @@ final class Generala extends JuegoAbstracto
     );
   }
 
-  private function calcularResultadoDeJugada(Cubilete $cubilete)
+  private function calcularResultadoDeJugada(Cubilete $cubilete): void
   {
     [$valores, $cantidades] = $cubilete->resultado();
 
@@ -138,14 +134,22 @@ final class Generala extends JuegoAbstracto
 
     Logger::info(mensaje: '- Por jugada:');
 
-    Logger::info(mensaje: "- ¿Hay escalera?:\t{$this->esEscalera($valores)}");
-    Logger::info(mensaje: "- ¿Hay full?:\t\t{$this->esFullHouse($valores)}");
-    Logger::info(mensaje: "- ¿Hay póker?:\t\t{$this->esPoker($valores)}");
-    Logger::info(mensaje: "- ¿Hay generala?:\t{$this->esGenerala($valores)}");
+    Logger::info(
+      mensaje: "- ¿Hay escalera?:\t{$this->esEscalera(valores: $valores)}",
+    );
+    Logger::info(
+      mensaje: "- ¿Hay full?:\t\t{$this->esFullHouse(valores: $valores)}",
+    );
+    Logger::info(
+      mensaje: "- ¿Hay póker?:\t\t{$this->esPoker(valores: $valores)}",
+    );
+    Logger::info(
+      mensaje: "- ¿Hay generala?:\t{$this->esGenerala(valores: $valores)}",
+    );
   }
 
   /**
-   * @param Array<int> $dados
+   * @param int[] $valores
    */
   private function esEscalera(array $valores): string
   {
@@ -176,7 +180,7 @@ final class Generala extends JuegoAbstracto
   }
 
   /**
-   * @param Array<int> $dados
+   * @param int[] $valores
    */
   private function esGenerala(array $valores): string
   {
@@ -190,7 +194,7 @@ final class Generala extends JuegoAbstracto
   }
 
   /**
-   * @param Array<int> $dados
+   * @param int[] $valores
    */
   private function esPoker(array $valores): string
   {
@@ -204,7 +208,7 @@ final class Generala extends JuegoAbstracto
   }
 
   /**
-   * @param Array<int> $dados
+   * @param int[] $valores
    */
   private function esFullHouse(array $valores): string
   {

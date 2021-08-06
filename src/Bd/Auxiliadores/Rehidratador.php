@@ -12,12 +12,16 @@ class Rehidratador
   private function __construct()
   {
   }
-  public static function ejecutar()
+  public static function ejecutar(): void
   {
     if (!static::$app) {
       $container = require __DIR__ . '/../../../hidratador.php';
       $output = new NullOutput();
-      static::$app = new PhpmigApplication($container, $output);
+
+      static::$app = new PhpmigApplication(
+        container: $container,
+        output: $output,
+      );
     }
 
     static::$app->down();

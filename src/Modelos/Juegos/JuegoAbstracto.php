@@ -17,7 +17,7 @@ abstract class JuegoAbstracto extends ModeloBase
   public const COMPLETADO = 'completado';
 
   private string $estado;
-  /** @param Array<Jugador> $jugadores */
+  /** @var Jugador[] $jugadores */
   private array $jugadores;
   private Cubilete $cubilete;
 
@@ -30,26 +30,26 @@ abstract class JuegoAbstracto extends ModeloBase
 
   /** @param Array<Jugador> $jugadores */
   public function __construct(
+    array $jugadores,
+    int $cantidadDeDados,
+    int $dadoValorMin,
+    int $dadoValorMax,
     ?string $id,
     ?string $estado,
     ?string $inicio,
     ?string $fin,
-    int $cantidadDeDados,
-    int $dadoValorMin,
-    int $dadoValorMax,
-    array $jugadores
   ) {
-    parent::__construct($id);
+    parent::__construct(id: $id);
 
-    $this->validarEstado($estado, $id);
-    $this->validarFechas($inicio, $fin, $estado, $id);
+    $this->validarEstado(estado: $estado, id: $id);
+    $this->validarFechas(inicio: $inicio, fin: $fin, estado: $estado, id: $id);
 
     $this->cantidadDeDados = $cantidadDeDados;
     $this->dadoValorMin = $dadoValorMin;
     $this->dadoValorMax = $dadoValorMax;
 
-    $this->inicio = FechaHora::deserializar($inicio);
-    $this->fin = FechaHora::deserializarOpcional($fin);
+    $this->inicio = FechaHora::deserializar(fecha: $inicio);
+    $this->fin = FechaHora::deserializarOpcional(fecha: $fin);
 
     if ($dadoValorMin < 0 || $dadoValorMax <= $dadoValorMin) {
       throw new JuegoError(
@@ -61,7 +61,7 @@ abstract class JuegoAbstracto extends ModeloBase
     $this->cubilete = new Cubilete(juego: $this);
     $this->jugadores = $jugadores;
 
-    $this->estado = is_null($estado) ? self::SIN_INICIAR : $estado;
+    $this->estado = is_null(value: $estado) ? self::SIN_INICIAR : $estado;
   }
 
   final public function cantidadDeDados(): int
@@ -86,11 +86,11 @@ abstract class JuegoAbstracto extends ModeloBase
     return [
       'id' => $this->id(),
       'estado' => $this->estado,
-      'inicio' => FechaHora::serializar($this->inicio),
-      'fin' => FechaHora::serializar($this->fin),
+      'inicio' => FechaHora::serializar(fecha: $this->inicio),
+      'fin' => FechaHora::serializar(fecha: $this->fin),
       'jugadores' => array_map(
-        fn($jugador) => $jugador->serializar(),
-        $this->jugadores,
+        callback: fn($jugador): array => $jugador->serializar(),
+        array: $this->jugadores,
       ),
     ];
   }
@@ -165,20 +165,12 @@ abstract class JuegoAbstracto extends ModeloBase
     return $this->jugadores;
   }
 
-  private function validarEstado(?string $estado, ?string $id): void
+  private function validarEstado(?string $estado, null|string $id): void
   {
-    $estadoEsNulo = is_null($estado);
+    $estadoEsNulo = is_null(value: $estado);
+    $idEsNul = is_null(value: $id);
 
-    if (is_null($id) && !$estadoEsNulo) {
-      throw new JuegoError(
-        juego: $this,
-        codigo: JuegoError::ESTADO_CARGADO_EN_CREACION,
-      );
-    }
-    if ($estadoEsNulo || !is_null($id)) {
-      return;
-    }
-    if ($estado === self::EN_PROGRESO) {
+    if ($idEsNul && !$estadoEsNulo) {
       throw new JuegoError(
         juego: $this,
         codigo: JuegoError::ESTADO_CARGADO_EN_CREACION,
@@ -190,11 +182,11 @@ abstract class JuegoAbstracto extends ModeloBase
     ?string $inicio,
     ?string $fin,
     ?string $estado,
-    ?string $id
+    ?string $id,
   ): void {
-    $inicioEsNulo = is_null($inicio);
-    $finEsNulo = is_null($fin);
-    $idEsNulo = is_null($id);
+    $inicioEsNulo = is_null(value: $inicio);
+    $finEsNulo = is_null(value: $fin);
+    $idEsNulo = is_null(value: $id);
 
     if ($idEsNulo && (!$inicioEsNulo || !$finEsNulo)) {
       throw new JuegoError(

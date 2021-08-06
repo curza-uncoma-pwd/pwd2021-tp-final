@@ -6,7 +6,7 @@ use Raiz\Modelos\Juegos\Generala;
 
 class HidrateJuegos extends Migrador
 {
-  private $tabla = 'juegos';
+  private string $tabla = 'juegos';
 
   public function up()
   {

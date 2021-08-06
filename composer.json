@@ -1,6 +1,6 @@
 {
-  "name": "pwd2021/tp7-dao",
-  "description": "Curza: PWD2021 - TP7 DAO",
+  "name": "pwd2021/tp-final",
+  "description": "Curza: PWD2021 - TP Final",
   "type": "project",
   "license": "MIT",
   "scripts": {
@@ -19,15 +19,19 @@
   "minimum-stability": "stable",
   "require": {
     "endyjasmi/cuid": "2.1.0",
-    "monolog/monolog": "2.2.0",
+    "monolog/monolog": "2.3.2",
     "vlucas/phpdotenv": "5.3.0",
-    "panique/pdo-debug": "0.2",
-    "brick/date-time": "0.3.0"
+    "brick/date-time": "0.3.2",
+    "slim/slim": "4.8.1",
+    "slim/psr7": "1.4",
+    "middlewares/trailing-slash": "2.0.1"
   },
   "require-dev": {
-    "phpunit/phpunit": "9.5.5",
+    "phpunit/phpunit": "9.5.8",
     "sempro/phpunit-pretty-print": "1.4.0",
     "davedevelopment/phpmig": "1.7.0",
-    "pimple/pimple": "3.4.0"
+    "pimple/pimple": "3.4.0",
+    "panique/pdo-debug": "0.2",
+    "phpstan/phpstan": "^0.12.94"
   }
 }

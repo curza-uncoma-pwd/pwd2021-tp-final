@@ -25,13 +25,15 @@ abstract class ModeloBase implements Serializador
     return $this->id === $instancia->id();
   }
 
+  /** @return mixed[] */
   public function serializar(): array
   {
-    throw new Error('Serialización no implementada.');
+    throw new Error(message: 'Serialización no implementada.');
   }
 
+  /** @param mixed[] $datos */
   public static function deserializar(array $datos): ModeloBase
   {
-    throw new Error('Deserialización no implementada.');
+    throw new Error(message: 'Deserialización no implementada.');
   }
 }

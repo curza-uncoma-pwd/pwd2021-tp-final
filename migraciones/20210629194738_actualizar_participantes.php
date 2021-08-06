@@ -4,7 +4,7 @@ use Raiz\Bd\Auxiliadores\Migrador;
 
 class ActualizarParticipantes extends Migrador
 {
-  private $tabla = 'participantes';
+  private string $tabla = 'participantes';
 
   public function up()
   {

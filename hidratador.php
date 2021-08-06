@@ -1,6 +1,6 @@
 <?php
 
-use Phpmig\Adapter;
+use Phpmig\Adapter\PDO\Sql as SqlAdapter;
 use Pimple\Container;
 
 require_once __DIR__ . '/env.php';
@@ -19,7 +19,7 @@ $container['db'] = function () {
 };
 
 $container['phpmig.adapter'] = function ($c) {
-  return new Adapter\PDO\Sql($c['db'], 'hidrataciones');
+  return new SqlAdapter($c['db'], 'hidrataciones');
 };
 
 $container['phpmig.migrations_path'] = __DIR__ . '/hidrataciones';

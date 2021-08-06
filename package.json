@@ -1,11 +1,11 @@
 {
-  "name": "@pwd2021/tp7-dao",
+  "name": "@pwd2021/tp-final",
   "version": "1.0.0",
-  "description": "Curza: PWD2021 - TP7 DAO",
+  "description": "Curza: PWD2021 - TP Final",
   "license": "MIT",
   "private": true,
   "devDependencies": {
-    "@prettier/plugin-php": "0.17.2",
-    "prettier": "2.3.1"
+    "@prettier/plugin-php": "0.17.3",
+    "prettier": "2.3.2"
   }
 }
