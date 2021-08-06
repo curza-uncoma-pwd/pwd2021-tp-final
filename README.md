@@ -30,7 +30,7 @@ Todas las recomendaciones para manejar el trabajo las pueden encontrar en el arc
 - Resolver todos los objetivos.
 - Verificar que los tests pasen.
 - Respetar las reglas definidas en la teoría respecto a los namespaces. Ignorar el uso correcto de mayúsculas y minúsculas será motivo para pedir rehacer el trabajo.
-- Manejar bien los errores espereados.
+- Manejar bien los errores esperados.
 - Completar todos los objetivos del TP.
 
 ## Aspectos a considerar

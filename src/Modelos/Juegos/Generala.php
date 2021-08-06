@@ -3,7 +3,6 @@
 namespace Raiz\Modelos\Juegos;
 
 use Raiz\Modelos\Cubilete;
-use Raiz\Modelos\Juegos\Errores\GeneralaError;
 use Raiz\Modelos\Juegos\Errores\JuegoError;
 use Raiz\Modelos\Jugador;
 use Raiz\Utilidades\Logger;

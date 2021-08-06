@@ -31,6 +31,8 @@ Todos deben correrse en una consola en la carpeta raíz de este proyecto.
 
 ## Uso del comando cURL
 
+- **AYUDA**: para conceptos de HTTP pueden buscar el **Apunte: Arquitectura cliente-servidor** que hay en la plataforma PEDCO en la unidad 1.
+
 ## Comando para leer datos del servidor
 
 Ejemplo utilizando la operación de listado de jugadores:
@@ -38,17 +40,15 @@ Ejemplo utilizando la operación de listado de jugadores:
 > NOTA: si no tienen instalado el comando `jq`, instálenlo.
 >
 > - Windows: `scoop install jq`
-> - Linux: `sudo apt install jq`
+> - Ubuntu: `sudo apt install jq`
 >
 > JQ Es un visualizador de JSON en la consola.
 
 ```sh
-curl http://localhost:8080/api/jugadores | jq .
+curl --request GET http://localhost:8080/api/jugadores | jq .
 ```
 
-- `--header`: describe una cabecera para la operación. En este caso le estamos notificando que el contenido que le vamos a enviar al servidor es del tipo JSON.
-- `--request`: describe el verbo HTTP a utilizar en la operación. En este ejemplo es `POST`.
-- `--data`: describe el contenido a enviar al servidor. En este caso es un string JSON válido. Si quieren transformar rápido un arreglo asociativo de PHP a un string JSON válido, acá les dejo un script rápido: https://3v4l.org/9bPrs.
+- `--request`: describe el verbo HTTP a utilizar en la operación. En este ejemplo es `GET`.
 
 ### Comando para enviar datos al servidor
 
