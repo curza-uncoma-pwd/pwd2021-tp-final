@@ -6,7 +6,7 @@ jobs:
   build:
     name: Autograduación
     runs-on: ubuntu-20.04
-    if: "!contains(github.event.head_commit.message, 'ci-skip')"
+    if: "!contains(github.event.head_commit.message, 'ci-skip') || !contains(github.event.head_commit.message, 'Merge remote-tracking') || !contains(github.event.head_commit.author.name, 'github-classroom')"
     steps:
       - uses: actions/checkout@v2
       - name: Shutdown Ubuntu MySQL (SUDO)

@@ -5,7 +5,7 @@
 # Configurar como ejecutables los archivos de sincronización de repo
 
 ```sh
-chmod 755 configs/*.sh configs/*.bat
+chmod 755 configs/*.sh
 ```
 
 1. (Por única vez) Ejecutar el archivo de configuración del repo padre:
@@ -19,6 +19,48 @@ chmod 755 configs/*.sh configs/*.bat
 ```sh
 ./configs/rebase
 ```
+
+## Comandos útiles
+
+Todos deben correrse en una consola en la carpeta raíz de este proyecto.
+
+- `composer run migrar` para recrear las tablas.
+- `composer run hidratar` para llenar de datos las tablas.
+- `./scripts/listar-rutas` para listar las rutas con los verbos HTTP asociados.
+- `./scripts/iniciar` para levantar el servidor de desarrollo.
+
+## Uso del comando cURL
+
+## Comando para leer datos del servidor
+
+Ejemplo utilizando la operación de listado de jugadores:
+
+> NOTA: si no tienen instalado el comando `jq`, instálenlo.
+>
+> - Windows: `scoop install jq`
+> - Linux: `sudo apt install jq`
+>
+> JQ Es un visualizador de JSON en la consola.
+
+```sh
+curl http://localhost:8080/api/jugadores | jq .
+```
+
+- `--header`: describe una cabecera para la operación. En este caso le estamos notificando que el contenido que le vamos a enviar al servidor es del tipo JSON.
+- `--request`: describe el verbo HTTP a utilizar en la operación. En este ejemplo es `POST`.
+- `--data`: describe el contenido a enviar al servidor. En este caso es un string JSON válido. Si quieren transformar rápido un arreglo asociativo de PHP a un string JSON válido, acá les dejo un script rápido: https://3v4l.org/9bPrs.
+
+### Comando para enviar datos al servidor
+
+Ejemplo utilizando la operación de creación de un nuevo jugador:
+
+```sh
+curl --header "Content-Type: application/json" --request POST --data "{\"nombre\":\"Olis\"}" http://localhost:8080/api/jugadores
+```
+
+- `--header`: describe una cabecera para la operación. En este caso le estamos notificando que el contenido que le vamos a enviar al servidor es del tipo JSON.
+- `--request`: describe el verbo HTTP a utilizar en la operación. En este ejemplo es `POST`.
+- `--data`: describe el contenido a enviar al servidor. En este caso es un string JSON válido. Si quieren transformar rápido un arreglo asociativo de PHP a un string JSON válido, acá les dejo un script rápido: https://3v4l.org/9bPrs.
 
 ## Operaciones útiles de SQL
 
@@ -37,13 +79,6 @@ SELECT t.*, DATE_FORMAT(ingreso, '%Y-%m-%dT%T') col
 FROM mi_tabla t
 WHERE
 ```
-
-## Comandos útiles
-
-Todos deben correrse en una consola en la carpeta raíz de este proyecto.
-
-- `composer run migrar` para recrear las tablas.
-- `composer run hidratar` para llenar de datos las tablas.
 
 ## Cómo correr los tests
 
@@ -95,7 +130,7 @@ Antes de poder programar cualquier cosa, necesitaremos inicializar las distintas
 
 #### Crear una migración
 
-> NOTA: ante la duda de qué o cómo resolver la migración, consultar en el canal **#dudas-unidad-3** del discord.
+> NOTA: ante la duda de qué o cómo resolver la migración, consultar en el canal **#dudas-tp-final** del discord.
 
 1. Ejecutar `composer run crear:migracion <nombre_de_la_migracion>`, donde `<nombre_de_la_migracion>` debe estar en minúsculas y separado por guiones bajos. Debe describir la acción de la migración. Ejemplos:
    - **agrega_tabla_competencias**
@@ -107,7 +142,8 @@ Antes de poder programar cualquier cosa, necesitaremos inicializar las distintas
 
 Este esqueleto está construido con las siguientes tecnologías:
 
-- Diseño parcial en MVC.
+- Diseño MVC.
+- [Slim framework](https://www.slimframework.com/): es responsable de manejar la comunicación HTTP: rutas, middlewares para proceso de JSON y de los verbos HTTP para cada ruta.
 - [Brick\DateTime](https://github.com/brick/date-time): librería para manejo de fechas inmutables. Lo de inmutabilidad es super importante porque significa que las instancias no cambian su contenido interno al realizar una operación sobre ellas, sino que crean una nueva instancia.
 - [Dotenv](https://github.com/vlucas/phpdotenv): librería para leer archivos `.env` y similares y cargar los datos en las variables globales.
 - [EndyJasmi\Cuid](https://github.com/endyjasmi/cuid): es una librería generar ids únicos a nivel profesional/global. Esta librería permite que la BD delegue el trabajo de generar IDs únicos al servidor o hasta al cliente. Se utilizó para mantener el diseño orientado a objetos lo más correcto posible. Esto se debe a que son los objetos realmente los responsables de generar su código de identificación único.

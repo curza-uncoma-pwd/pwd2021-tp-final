@@ -1,6 +1,25 @@
 # PWD2021 TP Final
 
-Los Mapeadores de datos a objetos, o DAOs, son clases intermedias entre el sistema de almacenamiento de datos (nuestras bases de datos) y nuestro código escrito en POO. Dado que las bases de datos no están escritas en ese paradgima, necesitamos de clases asistentes o intermedias que contengan de forma exclusiva toda la interacción necesaria. Así, dejamos bien separado el código propio de los modelos orientados a objetos, de las consultas a bases de datos.
+Este trabajo consiste en completar el desarrollo de la aplicación de juegos de generala definida durante la cursada del 2021. Con este trabajo podrán confirmar conocimientos como:
+
+- Manejo de IPOO estándar:
+  - Herencia y composición.
+  - Tipado de atributos, parámetros y variables.
+  - Uso del estándar de namespaces.
+  - Uso de tests unitarios con **PHPUnit**.
+  - Separación de conceptos según las responsabilidades.
+- Patrón MVC (Modelo, Vista, Controlador).
+  - Migraciones de base de datos como herramienta de versionado de cambios de BD.
+  - Hidrataciones como herramienta de generación de datos de prueba.
+- Manejo de SQL para persistencia y lectura de datos.
+- **Composer** como administrador de dependencias de php.
+- **Prettier** (a través de nodejs) como herramienta de formateo de código.
+- **VSCode** + plugins para facilitar el desarrollo.
+- **Github** y **Git** como almacenamiento del repositorio y ejecución de los tests (a través de docker).
+- **Slim** como _microservicio_ para una api rest (servidor de datos).
+- (_Nuevo_) **PHPStan** como herramienta de análisis estático del código.
+- (_Nuevo_) Conceptos de HTTP y comunicación asincrónica.
+- (_Nuevo_) Uso del comando `curl` para probar llamadas HTTP a la API JSON.
 
 ## Comandos necesarios
 
@@ -11,14 +30,14 @@ Todas las recomendaciones para manejar el trabajo las pueden encontrar en el arc
 - Resolver todos los objetivos.
 - Verificar que los tests pasen.
 - Respetar las reglas definidas en la teoría respecto a los namespaces. Ignorar el uso correcto de mayúsculas y minúsculas será motivo para pedir rehacer el trabajo.
-- La nota del TP tendrá un valor aprobado/desaprobado que se tendrá en cuenta para la promoción de la materia.
 - Manejar bien los errores espereados.
 - Completar todos los objetivos del TP.
 
 ## Aspectos a considerar
 
-- Todas las clases DAO deben implementar la interfaz **DaoInterface**.
+- Todas las clases **DAO** deben implementar la interfaz **DaoInterface**.
 - Las clases DAO deben ser las únicas clases que ejecuten código SQL.
+- Todas las clases **Controlador** deben implementar la interfaz **ControladorInterface**.
 - Pasar parámetros utilizando el sistema de argumentos nominales. Documentación: https://www.php.net/releases/8.0/en.php#named-arguments. Ejemplo:
 
   ```php
@@ -34,19 +53,15 @@ Todas las recomendaciones para manejar el trabajo las pueden encontrar en el arc
 
   Esta forma de pasar argumentos en la invocación de una función o método ayuda a saber qué significa cada parámetro en vez de estar memorizando el significado de cada uno de ellos según la posición.
 
-- Se agregó una nueva interfaz: `Raiz\Auxiliadores\Serializador` que describe la firma de los métodos `serializar` y `deserializar` necesarios para implementar en las clases del Modelo que deban ser persistidas.
-- Se agregó una nueva clase `Raiz\Auxiliadores\FechaHora` que se encarga de transformar strings a fechas y viceversa. Útil para cuando se deban inicializar los atributos de tipo fecha de las clases del Modelo como también para cuando deban serializarse.
-- La clase **ModeloBase** ahora implementa la interfaz `Serializador` con los métodos implementados sin ninguna operación, para que cada clase específica decida si implementar o no la serialización. Esto es porque no todas las clases del modelo necesitan guardar su información en la base de datos.
-- Se agregó la clase `Raiz\Bd\ConexionBd` necesaria para poder leer y escribir a la base de datos a través de los DAO.
-- Se agregó la interface `Raiz\Bd\DaoInterface` que describe los métodos que todos los DAO deberán implementar.
-- Se implementó el método `serializar` en la clase `JuegoAbstracto` que se encarga de serializar sus propios atributos.
-- Se implementó el método `serializar` en la clase `Generala` que utiliza el método padre y le agrega sus propios atributos.
-- Se implementó el método `deserializar` en la clase `Generala`.
-- Se agregaron los atributos `LocalDateTime $inicio` y `?LocalDateTime $fin` en `JuegoAbstracto`.
-- Se implementaron los métodos `validarEstado` y `validarFechas` que se encargan de asegurarse de que no se setean datos erróneos.
+- La carpeta **Rutas** no necesita ser editada. En ella están configuradas todas las rutas del servidor, tanto de la API de datos, como también para las vistas.
 
 ## Actualizaciones
 
 ## Objetivos principales del práctico
 
+- Hacer pasar todos los tests.
+- Crear `JugadorControlador` e implementar los métodos de la interface `ControladorInterface`.
+
 ## Objetivos secundarios
+
+- Actualmente no hay objetivos secundarios.
