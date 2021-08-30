@@ -109,8 +109,9 @@ class JuegoTest extends JuegoAbstracto
   public function verResultado(): void
   {
   }
-  protected function procesarRonda(): void
+  protected function procesarRonda(): array
   {
+    return [];
   }
   protected function verificarSiSeCompleto(): bool
   {

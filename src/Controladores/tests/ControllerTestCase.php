@@ -76,7 +76,11 @@ class ControllerTestCase extends TestCase
       );
 
       $jsonStream->write(
-        string: json_encode($data, flags: JSON_THROW_ON_ERROR, depth: 512),
+        string: json_encode(
+          value: $data,
+          flags: JSON_THROW_ON_ERROR,
+          depth: 512,
+        ),
       );
       $jsonStream->rewind();
 

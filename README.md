@@ -57,10 +57,24 @@ Todas las recomendaciones para manejar el trabajo las pueden encontrar en el arc
 
 ## Actualizaciones
 
+### 2021-08-30
+
+- Agrega tests y consigna para crear el controlador de la generala.
+- Actualiza las clases **Generala** y **JuegoAbstracto** para que puedan cumplir con lo necesario para que funcione el controlador.
+- La generala deja de imprimir por consola el resultado de cada ronda. En cambio ahora devuelve un arreglo asociativo para que el cliente (futuro) pueda mostrar el resultado de la ronda.
+
 ## Objetivos principales del práctico
 
 - Hacer pasar todos los tests.
 - Crear `JugadorControlador` e implementar los métodos de la interface `ControladorInterface`.
+- Crear `GeneralaControlador` e implementar los métodos de la interface `ControladorInterface`.
+  - El método `actualizar` debería lanzar un error de que no está implementado.
+  - En reemplazo de un único método "actualizar", `GeneralaControlador` deberá implementar los siguientes métodos estáticos extras (por fuera de la interface):
+    - `iniciar(string $id): array` :: inicia una partida de generala según el id recibido por parámetro y la persiste. Por último devuelve la generala serializada.
+    - `pausar(string $id): array` :: pausa una partida de generala según el id recibido por parámetro y la persiste. Por último devuelve la generala serializada.
+    - `reanudar(string $id): array` :: reanuda una partida de generala según el id recibido por parámetro y la persiste. Por último devuelve la generala serializada.
+    - `resetear(string $id): array` :: resetea una partida de generala según el id recibido por parámetro y la persiste. Por último devuelve la generala serializada.
+    - `realizarRonda(string $id): array` :: realiza una ronda de una partida de generala según el id recibido por parámetro y la persiste. Por último devuelve la siguiente estructura: un arreglo asociativo con dos claves: (1) **generala**, con los datos serializados de la misma; y (2) **resultado**, con los resultados de la ronda actual, obtenidos al invocar el método `realizarRonda` de la generala. NOTA: el método `realizarRonda` ya no imprime por consola el resultado, y en vez de eso, lo devuelve como datos, para que el cliente pueda mostrarlo.
 
 ## Objetivos secundarios
 

@@ -3,6 +3,7 @@
 namespace Raiz;
 
 use Middlewares\TrailingSlash;
+use Raiz\Rutas\GeneralaRutas;
 use Raiz\Rutas\GlobalRutas;
 use Slim\Factory\AppFactory;
 use Raiz\Rutas\JsonRespuestaMiddleware;
@@ -19,6 +20,7 @@ class Builder
     $app->add(middleware: new TrailingSlash());
 
     GlobalRutas::configurar(app: $app);
+    GeneralaRutas::configurar(app: $app);
     JugadorRutas::configurar(app: $app);
 
     return $app;

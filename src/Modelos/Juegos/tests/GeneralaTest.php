@@ -1,7 +1,6 @@
 <?php declare(strict_types=1);
 
 use PHPUnit\Framework\TestCase;
-use Raiz\Modelos\Juegos\Errores\GeneralaError;
 use Raiz\Modelos\Juegos\Errores\JuegoError;
 use Raiz\Modelos\Juegos\Generala;
 use Raiz\Modelos\Jugador;

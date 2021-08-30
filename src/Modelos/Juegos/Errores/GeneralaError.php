@@ -7,7 +7,6 @@ use Raiz\Modelos\Juegos\Generala;
 
 class GeneralaError extends Error
 {
-  public const FALTA_CONFIGURAR = 300;
   private const ERROR_DESCONOCIDO = -1;
 
   public function __construct(Generala $juego, int $codigo)

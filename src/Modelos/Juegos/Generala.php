@@ -84,19 +84,37 @@ final class Generala extends JuegoAbstracto
     $this->rondaActual = 0;
   }
 
-  protected function procesarRonda(): void
+  public function resetear(): void
+  {
+    parent::resetear();
+
+    $this->rondaActual = 0;
+  }
+
+  /** @return mixed[] */
+  protected function procesarRonda(): array
   {
     $this->rondaActual++;
 
-    Logger::info(modelo: $this, mensaje: "Ronda nº{$this->rondaActual}:");
+    $respuesta = [
+      'ronda' => $this->rondaActual,
+      'jugadores' => [],
+    ];
 
     foreach ($this->jugadores() as $jugador) {
       $jugador->realizarTurno(cubilete: $this->cubilete());
 
-      Logger::info(modelo: $jugador, mensaje: "{$jugador->nombre()} obtuvo:");
+      $resultado = [
+        'jugador' => $jugador->nombre(),
+        'resultado' => $this->calcularResultadoDeJugada(
+          cubilete: $this->cubilete(),
+        ),
+      ];
 
-      $this->calcularResultadoDeJugada(cubilete: $this->cubilete());
+      array_push($respuesta['jugadores'], $resultado);
     }
+
+    return $respuesta;
   }
 
   protected function verificarSiSeCompleto(): bool
@@ -118,33 +136,25 @@ final class Generala extends JuegoAbstracto
     );
   }
 
-  private function calcularResultadoDeJugada(Cubilete $cubilete): void
+  /**
+   * @return mixed[]
+   */
+  private function calcularResultadoDeJugada(Cubilete $cubilete): array
   {
     [$valores, $cantidades] = $cubilete->resultado();
 
-    Logger::info(mensaje: '- Por número:');
-
-    Logger::info(mensaje: "  - As:\t\t\t1 * {$valores[1]} = {$valores[1]}");
-    Logger::info(mensaje: "  - Dos:\t\t2 * {$valores[2]} = $cantidades[2]");
-    Logger::info(mensaje: "  - Tres:\t\t3 * {$valores[3]} = $cantidades[3]");
-    Logger::info(mensaje: "  - Cuatro:\t\t4 * {$valores[4]} = $cantidades[4]");
-    Logger::info(mensaje: "  - Cinco:\t\t5 * {$valores[5]} = $cantidades[5]");
-    Logger::info(mensaje: "  - Seis:\t\t6 * {$valores[6]} = $cantidades[6]");
-
-    Logger::info(mensaje: '- Por jugada:');
-
-    Logger::info(
-      mensaje: "- ¿Hay escalera?:\t{$this->esEscalera(valores: $valores)}",
-    );
-    Logger::info(
-      mensaje: "- ¿Hay full?:\t\t{$this->esFullHouse(valores: $valores)}",
-    );
-    Logger::info(
-      mensaje: "- ¿Hay póker?:\t\t{$this->esPoker(valores: $valores)}",
-    );
-    Logger::info(
-      mensaje: "- ¿Hay generala?:\t{$this->esGenerala(valores: $valores)}",
-    );
+    return [
+      'as' => [$valores[1], $cantidades[1]],
+      'dos' => [$valores[2], $cantidades[2]],
+      'tres' => [$valores[3], $cantidades[3]],
+      'cuatro' => [$valores[4], $cantidades[4]],
+      'cinco' => [$valores[5], $cantidades[5]],
+      'seis' => [$valores[6], $cantidades[6]],
+      'escalera' => $this->esEscalera(valores: $valores),
+      'full' => $this->esFullHouse(valores: $valores),
+      'poker' => $this->esPoker(valores: $valores),
+      'generala' => $this->esGenerala(valores: $valores),
+    ];
   }
 
   /**

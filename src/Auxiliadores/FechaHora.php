@@ -7,10 +7,14 @@ use Brick\DateTime\TimeZoneRegion;
 
 class FechaHora
 {
+  public static function ahora(): LocalDateTime
+  {
+    return LocalDateTime::now(timeZone: TimeZoneRegion::utc());
+  }
   public static function deserializar(?string $fecha): LocalDateTime
   {
     return is_null(value: $fecha)
-      ? LocalDateTime::now(timeZone: TimeZoneRegion::utc())
+      ? self::ahora()
       : LocalDateTime::parse(text: $fecha);
   }
 

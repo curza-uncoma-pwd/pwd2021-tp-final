@@ -111,6 +111,8 @@ abstract class JuegoAbstracto extends ModeloBase
         codigo: JuegoError::RESETEAR_SIN_INICIAR,
       );
     }
+    $this->inicio = FechaHora::ahora();
+    $this->fin = null;
     $this->estado = self::SIN_INICIAR;
   }
 
@@ -133,7 +135,8 @@ abstract class JuegoAbstracto extends ModeloBase
     $this->estado = self::EN_PROGRESO;
   }
 
-  public function realizarRonda(): void
+  /** @return mixed[] */
+  public function realizarRonda(): array
   {
     if ($this->estado !== self::EN_PROGRESO) {
       throw new JuegoError(
@@ -141,15 +144,19 @@ abstract class JuegoAbstracto extends ModeloBase
         codigo: JuegoError::RONDA_SIN_ESTAR_EN_PROGRESO,
       );
     }
-    $this->procesarRonda();
+    $resultado = $this->procesarRonda();
 
     if ($this->verificarSiSeCompleto()) {
       $this->estado = self::COMPLETADO;
+      $this->fin = FechaHora::ahora();
     }
+
+    return $resultado;
   }
 
   abstract public function verResultado(): void;
-  abstract protected function procesarRonda(): void;
+  /** @return mixed[] */
+  abstract protected function procesarRonda(): array;
   abstract protected function verificarSiSeCompleto(): bool;
 
   final protected function cubilete(): Cubilete
