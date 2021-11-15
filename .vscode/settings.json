@@ -10,5 +10,8 @@
 
   "[php]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
-  }
+  },
+  "volar.codeLens.pugTools": false,
+  "volar.codeLens.references": false,
+  "volar.codeLens.scriptSetupTools": false
 }
