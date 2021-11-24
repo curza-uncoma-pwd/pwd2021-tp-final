@@ -33,6 +33,7 @@
     "davedevelopment/phpmig": "1.7.0",
     "pimple/pimple": "v3.5.0",
     "panique/pdo-debug": "0.2",
-    "phpstan/phpstan": "1.1.2"
+    "phpstan/phpstan": "1.2.0",
+    "phpunit/php-code-coverage": "9.2.9"
   }
 }
