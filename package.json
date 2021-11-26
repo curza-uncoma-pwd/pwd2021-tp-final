@@ -10,19 +10,19 @@
     "serve": "vite preview"
   },
   "dependencies": {
-    "vue": "3.2.9",
+    "vue": "3.2.22",
     "vue-router": "4.0.12"
   },
   "devDependencies": {
     "@prettier/plugin-php": "0.17.6",
-    "@types/concurrently": "^6.4.0",
-    "@types/node": "^16.11.10",
-    "@vitejs/plugin-vue": "^1.10.0",
+    "@types/concurrently": "6.4.0",
+    "@types/node": "16.11.10",
+    "@vitejs/plugin-vue": "1.10.0",
     "@vue/compiler-sfc": "3.2.22",
     "concurrently": "6.4.0",
     "prettier": "2.4.1",
     "typescript": "^4.5.2",
     "vite": "2.6.14",
-    "vue-tsc": "^0.29.6"
+    "vue-tsc": "0.29.6"
   }
 }
