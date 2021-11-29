@@ -2,8 +2,8 @@
   <NavegacionDeEntidad />
   <article>
     <h1>Jugadores</h1>
-    <p v-if="estado.jugadores.length === 0">Cargando...</p>
-    <table v-if="estado.jugadores.length > 0">
+    <p v-if="jugadores.length === 0">Cargando...</p>
+    <table v-if="jugadores.length > 0">
       <thead>
         <tr>
           <th>ID</th>
@@ -13,7 +13,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr v-for="jugador in estado.jugadores">
+        <tr v-for="jugador in jugadores">
           <td>{{ jugador.id }}</td>
           <td>{{ jugador.nombre }}</td>
           <td>{{ jugador.ingreso.toLocaleDateString() }}</td>
@@ -35,16 +35,16 @@
 
 <script setup lang="ts">
 import { onMounted } from '@vue/runtime-core';
-import { reactive } from '@vue/reactivity';
+import { ref } from '@vue/reactivity';
 
 import NavegacionDeEntidad from '../../componentes/NavegacionDeEntidad.vue';
 import { borrarJugador, Jugador, listarJugadores } from '../../modelo/jugador';
 import BotonNavegacion from '../../componentes/BotonNavegacion.vue';
 
-const estado = reactive<{ jugadores: Jugador[] }>({ jugadores: [] });
+const jugadores = ref<Jugador[]>([]);
 
 onMounted(async () => {
-  estado.jugadores = await listarJugadores();
+  jugadores.value = await listarJugadores();
 });
 
 async function invocarBorrarJugador(id: string) {
@@ -52,7 +52,7 @@ async function invocarBorrarJugador(id: string) {
 
   alert('Se borró el jugador exitosamente!');
 
-  estado.jugadores = await listarJugadores();
+  jugadores.value = await listarJugadores();
 }
 </script>
 
